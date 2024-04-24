@@ -27,11 +27,14 @@ namespace SpartaDungeon
             Console.WriteLine("0. 나가기");
         }
 
-        public int Input()
+        
+        public int Input(List<Item> list = null)
         {
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
             int num = int.Parse(Console.ReadLine());
+
+
 
             return num;
         }
@@ -102,6 +105,7 @@ namespace SpartaDungeon
                 Console.Write("- ");
                 items[i].Display();
             }
+            Console.WriteLine();
 
             int index = base.Display();
 
@@ -116,11 +120,28 @@ namespace SpartaDungeon
                 {
                     Console.Write($"- {i+1} ");
                     items[i].Display();
-
                 }
+                Console.WriteLine();
 
                 Escape();
-                if (Input() == 0) break;
+
+                int num = Input();
+                if (num == 0) break;
+
+                else if(num >= 1 && num <= items.Count)
+                {
+                    Item i = items[num - 1];
+
+                    if (Character.instance.IsEquip(i))
+                        Console.WriteLine("이미 착용한 아이템입니다.");
+                    else
+                    {
+                        Console.WriteLine($"{items[num - 1].name}을 장비합니다.");
+                        Character.instance.equip.Add(i);
+                    }
+
+                    Thread.Sleep(1000);
+                }
             }
 
             return 0;
@@ -197,6 +218,8 @@ namespace SpartaDungeon
                     items[i].ShowCaseDisplay();
                 }
 
+                Console.WriteLine();
+
                 Escape();
                 int num = Input();
 
@@ -210,7 +233,7 @@ namespace SpartaDungeon
 
         private void Trade(Item i)
         {
-            int gold = Character.instance.status.gold;
+            ref int gold = ref Character.instance.status.gold;
             int value = i.value;
 
 
