@@ -17,6 +17,8 @@ namespace SpartaDungeon
         public static Character instance = null;
         public Status status { get; private set; }
         public List<Item> inventory { get; set; }
+        public List<Item> equip { get; set; }
+
         public Character Instance
         {
             get
@@ -28,7 +30,6 @@ namespace SpartaDungeon
                 return instance;
             }
         } //싱글톤
-
         public Character()
         {
             if (instance == null) instance = this;
@@ -42,6 +43,11 @@ namespace SpartaDungeon
             status.def = 5;
             status.hp = 100;
             status.gold = 1500;
+        }
+
+        public bool IsEquip(Item i)
+        {
+            return equip.Contains(i);
         }
     }
 }

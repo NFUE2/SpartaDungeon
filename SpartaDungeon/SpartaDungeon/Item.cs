@@ -19,6 +19,7 @@ namespace SpartaDungeon
 
         public void Display()
         {
+            if(Character.instance.IsEquip(this)) Console.Write("[E]");
             Console.Write($"{name} | ");
             Console.Write($"{type.ToString()} +{value} | ");
             Console.WriteLine($"{info}");

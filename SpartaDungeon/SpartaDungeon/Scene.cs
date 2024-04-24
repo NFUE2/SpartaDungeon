@@ -63,7 +63,7 @@ namespace SpartaDungeon
         {
             //캐릭터의 정보를 가져와야할듯. 싱글톤을 쓰는게 좋을것 같음
             Console.WriteLine("상태 보기");
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.");
+            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
 
             Status s = Character.instance.status;
 
@@ -92,12 +92,37 @@ namespace SpartaDungeon
         public override int Display()
         {
             List<Item> list = Character.instance.inventory;
-            Console.WriteLine("[아이템 목록]\n");
+            Console.WriteLine("인벤토리");
+            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+            Console.WriteLine("[아이템 목록]");
 
-            foreach (Item i in list)
-                i.Display();
+            for (int i = 0; i < list.Count; i++)
+            {
+                Console.Write("- ");
+                list[i].Display();
+            }
 
-            return base.Display();
+            int index = base.Display();
+
+            while(index == 1)
+            {
+                Console.Clear();
+                Console.WriteLine("인벤토리 - 장착관리");
+                Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+                Console.WriteLine("[아이템 목록]");
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    Console.Write($"- {i+1} ");
+                    list[i].Display();
+
+                }
+
+                Escape();
+                if (Input() == 0) break;
+            }
+
+            return 0;
         }
     }
 

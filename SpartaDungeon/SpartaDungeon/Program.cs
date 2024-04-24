@@ -9,9 +9,12 @@
             MainScene main = new MainScene();
             StatusScene status = new StatusScene();
             InventoryScene inventory = new InventoryScene();
+            Shop shop = new Shop();
+
             scenes.Add(main);
             scenes.Add(status);
             scenes.Add(inventory);
+            scenes.Add(shop);
 
             return scenes;
         }
