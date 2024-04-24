@@ -14,15 +14,26 @@ namespace SpartaDungeon
             방어력,
         }
 
-        public string name, value, info;
+        public string name,info;
+        public int stat, ea, value;
         private Type type;
 
         public void Display()
         {
+            Console.Write("\n");
             if(Character.instance.IsEquip(this)) Console.Write("[E]");
             Console.Write($"{name} | ");
-            Console.Write($"{type.ToString()} +{value} | ");
-            Console.WriteLine($"{info}");
+            Console.Write($"{type.ToString()} +{stat} | ");
+            Console.Write($"{info}");
+        }
+
+        public void ShowCaseDisplay()
+        {
+            Console.Write($"{name} | ");
+            Console.Write($"{type.ToString()} +{stat} | ");
+            Console.Write($"{info} | ");
+            if(ea > 0) Console.Write($"{value} G");
+            else Console.Write("구매완료");
         }
     }
 }

@@ -37,7 +37,7 @@ namespace SpartaDungeon
         }
     }
 
-    public class MainScene : Scene
+    public class MainScene : Scene //메인 화면
     {
         public MainScene()
         {
@@ -53,7 +53,7 @@ namespace SpartaDungeon
         }
     }
 
-    public class StatusScene : Scene
+    public class StatusScene : Scene //상태 화면
     {
         public StatusScene()
         {
@@ -81,7 +81,7 @@ namespace SpartaDungeon
         }
     }
 
-    public class InventoryScene : Scene
+    public class InventoryScene : Scene //인벤토리 화면
     {
         public InventoryScene()
         {
@@ -91,15 +91,16 @@ namespace SpartaDungeon
 
         public override int Display()
         {
-            List<Item> list = Character.instance.inventory;
+            List<Item> items = Character.instance.inventory;
+
             Console.WriteLine("인벤토리");
             Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
             Console.WriteLine("[아이템 목록]");
 
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < items.Count; i++)
             {
                 Console.Write("- ");
-                list[i].Display();
+                items[i].Display();
             }
 
             int index = base.Display();
@@ -111,10 +112,10 @@ namespace SpartaDungeon
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
                 Console.WriteLine("[아이템 목록]");
 
-                for (int i = 0; i < list.Count; i++)
+                for (int i = 0; i < items.Count; i++)
                 {
                     Console.Write($"- {i+1} ");
-                    list[i].Display();
+                    items[i].Display();
 
                 }
 
@@ -126,8 +127,99 @@ namespace SpartaDungeon
         }
     }
 
-    public class Shop : Scene
+    public class Shop : Scene //상점화면
     {
+        List<Item> items = new List<Item>();
 
+        public static Shop instance;
+
+        public Shop Instance
+        {
+            get
+            {
+                if(instance == null)
+                    instance = new Shop();
+                
+                return instance;
+            }
+        } //싱글톤
+
+        public Shop()
+        {
+            if (instance == null) instance = this;
+
+            actionList = new List<string> { "아이템 구매" };
+            escape = true;
+        }
+
+        public override int Display()
+        {
+            Console.WriteLine("상점");
+            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{Character.instance.status.gold} G\n");
+
+            Console.WriteLine("[아이템 목록]");
+            for (int i = 0; i < items.Count; i++)
+            {
+                Console.Write("- ");
+                items[i].Display();
+            }
+
+            int index = base.Display();
+
+            while(index == 1)
+            {
+                Console.Clear();
+                Console.WriteLine("상점 - 아이템 구매");
+                Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+
+                Console.WriteLine("[보유 골드]");
+                Console.WriteLine($"{Character.instance.status.gold} G\n");
+
+                Console.WriteLine("[아이템 목록]");
+                for (int i = 0; i < items.Count; i++)
+                {
+                    Console.Write($"- {i + 1} ");
+                    items[i].ShowCaseDisplay();
+                }
+
+                Escape();
+                int num = Input();
+
+                if (num == 0) break;
+
+                else if(1 <= num && num <= items.Count)
+                    Trade(items[num]);
+
+                else
+                    Console.WriteLine("잘못된 입력입니다.");
+            }
+
+            return 0;
+        }
+
+        private void Trade(Item i)
+        {
+            int gold = Character.instance.status.gold;
+            int value = i.value;
+
+            if (i.ea == 0)
+                Console.WriteLine("이미 구매한 아이템입니다.");
+
+            else if(gold > value)
+            {
+                gold -= value; 
+                i.ea = 0;
+                Character.instance.inventory.Add(i);
+                Console.WriteLine("구매를 완료했습니다.");
+            }
+
+            else if(gold < value)
+                Console.WriteLine("Gold가 부족합니다.");
+
+            Thread.Sleep(1000);
+        }
     }
 }
