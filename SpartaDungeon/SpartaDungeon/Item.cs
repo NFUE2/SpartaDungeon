@@ -11,8 +11,8 @@ namespace SpartaDungeon
     {
         public enum Type
         {
-            무기,
-            갑옷,
+            공격력,
+            방어력,
         }
 
         public string name,info;
@@ -21,11 +21,11 @@ namespace SpartaDungeon
 
         public void Display()
         {
-            Console.Write("\n");
+            //Console.Write("\n");
             if(Character.instance.IsEquip(this)) Console.Write("[E]");
             Console.Write($"{name} | ");
             Console.Write($"{type.ToString()} +{stat} | ");
-            Console.Write($"{info}");
+            Console.WriteLine($"{info}");
         }
 
         public void ShowCaseDisplay()
@@ -33,8 +33,8 @@ namespace SpartaDungeon
             Console.Write($"{name} | ");
             Console.Write($"{type.ToString()} +{stat} | ");
             Console.Write($"{info} | ");
-            if(ea > 0) Console.Write($"{value} G");
-            else Console.Write("구매완료");
+            if(ea > 0) Console.WriteLine($"{value} G");
+            else Console.WriteLine("구매완료");
         }
     }
 
@@ -44,7 +44,7 @@ namespace SpartaDungeon
     {
         public NewBieArmor()
         {
-            type = Type.갑옷;
+            type = Type.방어력;
             name = "수련자 갑옷";
             info = "수련에 도움을 주는 갑옷입니다.";
             stat = 5;
@@ -57,7 +57,7 @@ namespace SpartaDungeon
     {
         public IronArmor()
         {
-            type = Type.갑옷;
+            type = Type.방어력;
             name = "무쇠갑옷";
             info = "무쇠로 만들어져 튼튼한 갑옷입니다.";
             stat = 9;
@@ -70,7 +70,7 @@ namespace SpartaDungeon
     {
         public SpartaArmor()
         {
-            type = Type.갑옷;
+            type = Type.방어력;
             name = "스파르타의 갑옷";
             info = "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.";
             stat = 15;
@@ -83,7 +83,7 @@ namespace SpartaDungeon
     {
         public OldSword()
         {
-            type = Type.무기;
+            type = Type.공격력;
             name = "낡은 검";
             info = "쉽게 볼 수 있는 낡은 검 입니다.";
             stat = 2;
@@ -96,7 +96,7 @@ namespace SpartaDungeon
     {
         public BronzeAxe()
         {
-            type = Type.무기;
+            type = Type.공격력;
             name = "청동 도끼";
             info = "어디선가 사용됐던거 같은 도끼입니다. ";
             stat = 5;
@@ -109,7 +109,7 @@ namespace SpartaDungeon
     {
         public SpartaSpear()
         {
-            type = Type.무기;
+            type = Type.공격력;
             name = "스파르타의 창";
             info = "스파르타의 전사들이 사용했다는 전설의 창입니다.";
             stat = 7;

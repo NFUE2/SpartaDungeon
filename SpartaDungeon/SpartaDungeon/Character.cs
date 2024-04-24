@@ -35,6 +35,7 @@ namespace SpartaDungeon
             if (instance == null) instance = this;
             inventory = new List<Item>();
             status = new Status();
+            equip = new List<Item>();
 
             status.level = 1;
             status.name = "김마법사";

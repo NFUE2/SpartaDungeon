@@ -127,28 +127,39 @@ namespace SpartaDungeon
         }
     }
 
-    public class Shop : Scene //상점화면
+    public class ShopScene : Scene //상점화면
     {
-        List<Item> items = new List<Item>();
+        List<Item> items;
 
-        public static Shop instance;
+        public static ShopScene instance;
 
-        public Shop Instance
+        public ShopScene Instance
         {
             get
             {
                 if(instance == null)
-                    instance = new Shop();
+                    instance = new ShopScene();
                 
                 return instance;
             }
         } //싱글톤
 
-        public Shop()
+        public ShopScene()
         {
             if (instance == null) instance = this;
 
             actionList = new List<string> { "아이템 구매" };
+
+            items = new List<Item>()
+            {
+                new NewBieArmor(),
+                new IronArmor(),
+                new SpartaArmor(),
+                new OldSword(),
+                new BronzeAxe(),
+                new SpartaSpear()
+            };
+
             escape = true;
         }
 
@@ -166,6 +177,7 @@ namespace SpartaDungeon
                 Console.Write("- ");
                 items[i].Display();
             }
+            Console.WriteLine();
 
             int index = base.Display();
 
@@ -189,12 +201,8 @@ namespace SpartaDungeon
                 int num = Input();
 
                 if (num == 0) break;
-
-                else if(1 <= num && num <= items.Count)
-                    Trade(items[num]);
-
-                else
-                    Console.WriteLine("잘못된 입력입니다.");
+                else if(1 <= num && num <= items.Count) Trade(items[num - 1]);
+                else Console.WriteLine("잘못된 입력입니다.");
             }
 
             return 0;
@@ -205,6 +213,7 @@ namespace SpartaDungeon
             int gold = Character.instance.status.gold;
             int value = i.value;
 
+
             if (i.ea == 0)
                 Console.WriteLine("이미 구매한 아이템입니다.");
 
@@ -213,7 +222,7 @@ namespace SpartaDungeon
                 gold -= value; 
                 i.ea = 0;
                 Character.instance.inventory.Add(i);
-                Console.WriteLine("구매를 완료했습니다.");
+                Console.WriteLine($"{i.name} 구매를 완료했습니다.");
             }
 
             else if(gold < value)
