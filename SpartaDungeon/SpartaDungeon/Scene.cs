@@ -17,12 +17,14 @@ namespace SpartaDungeon
                 for (int i = 0; i < actionList.Count; i++)
                     Console.WriteLine($"{i + 1}. {actionList[i]}");
 
+            if (escape) Escape();
+
             return Input();
         }
 
         public void Escape()
         {
-            Console.WriteLine("\n0. 나가기");
+            Console.WriteLine("0. 나가기");
         }
 
         public int Input()
@@ -71,7 +73,7 @@ namespace SpartaDungeon
             Console.WriteLine($"공격력 : {s.att}");
             Console.WriteLine($"방어력 : {s.def}");
             Console.WriteLine($"체 력 : {s.hp}");
-            Console.WriteLine($"Gold : {s.gold} G");
+            Console.WriteLine($"Gold : {s.gold} G\n");
 
             Escape();
 
@@ -90,15 +92,12 @@ namespace SpartaDungeon
         public override int Display()
         {
             List<Item> list = Character.instance.inventory;
-            Console.WriteLine("[아이템 목록]");
+            Console.WriteLine("[아이템 목록]\n");
 
             foreach (Item i in list)
                 i.Display();
 
-            base.Display();
-            Escape();
-
-            return Input();
+            return base.Display();
         }
     }
 

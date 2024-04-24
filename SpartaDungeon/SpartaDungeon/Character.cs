@@ -32,6 +32,7 @@ namespace SpartaDungeon
         public Character()
         {
             if (instance == null) instance = this;
+            inventory = new List<Item>();
             status = new Status();
 
             status.level = 1;
