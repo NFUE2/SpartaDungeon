@@ -12,3 +12,4 @@ D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\refint\Spar
 D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\SpartaDungeon.pdb
 D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\SpartaDungeon.genruntimeconfig.cache
 D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\ref\SpartaDungeon.dll
+D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\SpartaDungeon.sourcelink.json
