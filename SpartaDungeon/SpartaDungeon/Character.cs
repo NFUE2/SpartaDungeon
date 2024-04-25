@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SpartaDungeon
@@ -12,9 +13,10 @@ namespace SpartaDungeon
         public string major, name;
         public float att;
     }
-
+    [Serializable]
     public class Character 
     {
+
         public static Character instance = null;
         public Status status { get; private set; }
         public Storage inventory { get; set; }
@@ -22,6 +24,7 @@ namespace SpartaDungeon
 
         public Character Instance
         {
+            
             get
             {
                 if (instance == null)
@@ -37,7 +40,6 @@ namespace SpartaDungeon
             inventory = new Storage();
             status = new Status();
             equip = new List<Item>();
-
             status.level = 1;
             status.name = "김마법사";
             status.major = "전사";
@@ -45,6 +47,15 @@ namespace SpartaDungeon
             status.def = 5;
             status.hp = 100;
             status.gold = 1500;
+        }
+
+        public Character(Status status, Storage inventory, List<Item> equip)
+        {
+            if (instance == null) instance = this;
+
+            this.status = status;
+            this.inventory = inventory;
+            this.equip = equip;
         }
 
         public bool IsEquip(Item i)

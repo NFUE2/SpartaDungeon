@@ -13,3 +13,6 @@ D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\SpartaDunge
 D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\SpartaDungeon.genruntimeconfig.cache
 D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\ref\SpartaDungeon.dll
 D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\SpartaDungeon.sourcelink.json
+D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\SpartaDungeon.csproj.AssemblyReference.cache
+D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\bin\Debug\net8.0\Newtonsoft.Json.dll
+D:\Github\SpartaDungeon\SpartaDungeon\SpartaDungeon\obj\Debug\net8.0\SpartaDu.CCB74D96.Up2Date
