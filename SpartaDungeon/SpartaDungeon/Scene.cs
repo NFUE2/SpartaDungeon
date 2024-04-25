@@ -179,16 +179,6 @@ namespace SpartaDungeon
 
     public class MainScene : Scene //메인 화면
     {
-        #region 주석
-        //protected override void Top()
-        //{
-        //    Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.");
-        //}
-        //protected override void Mid()
-        //{
-        //    Console.WriteLine();
-        //}
-        #endregion
         public MainScene()
         {
             msg = "스파르타 마을에 오신 여러분 환영합니다.\n이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n";
@@ -219,40 +209,6 @@ namespace SpartaDungeon
             msg = "상태 보기\n캐릭터의 정보가 표시됩니다.\n";
             escape = true;
         }
-        #region 주석
-        //public StatusScene()
-        //{
-        //    escape = true;
-        //}
-
-        //public override int Display()
-        //{
-        //    //캐릭터의 정보를 가져와야할듯. 싱글톤을 쓰는게 좋을것 같음
-
-        //    Console.WriteLine("상태 보기");
-        //    Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
-
-        //    Character.instance.Display();
-
-        //    return Input();
-        //}
-
-        //public StatusScene()
-        //{
-        //    escape = true;
-        //}
-
-        //protected override void Top()
-        //{
-        //    Console.WriteLine("상태 보기");
-        //    Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
-        //}
-        //protected override void Mid()
-        //{
-        //    Character.instance.Display();
-        //}
-        #endregion
-
 
         public override int Display()
         {
@@ -272,135 +228,6 @@ namespace SpartaDungeon
 
     public class InventoryScene : Scene //인벤토리 화면
     {
-        #region 주석
-        //public override int Display()
-        //{
-        //    Storage storage = Character.instance.inventory;
-        //    List<Item> items = storage.items;
-
-        //    Console.WriteLine("인벤토리");
-        //    Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
-
-        //    storage.Display(false);
-
-        //    int index = base.Display();
-
-        //    while (index == 1)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine("인벤토리 - 장착관리");
-        //        Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-
-        //        storage.Display(true);
-
-        //        int num = Input(items.Count);
-        //        if (num == 0) break;
-        //        if (num == -1) continue;
-
-        //        Item i = items[num - 1];
-
-        //        if (Character.instance.IsEquip(i))
-        //            Console.WriteLine("이미 착용한 아이템입니다.");
-        //        else
-        //        {
-        //            Console.WriteLine($"{items[num - 1].name}을 장비합니다.");
-        //            Character.instance.equip.Add(i);
-
-        //            if ((int)i.type == 0) Character.instance.status.addAtt += i.stat;
-        //            else Character.instance.status.addDef += i.stat;
-        //        }
-
-        //        Thread.Sleep(1000);
-        //    }
-
-        //    return 0;
-        //}
-        //Storage storage = Character.instance.inventory;
-
-        //public InventoryScene()
-        //{
-        //    actionList = new List<string> { "장착관리" };
-        //    escape = true;
-        //}
-
-        //protected override void Top()
-        //{
-        //    Console.WriteLine("인벤토리");
-        //    Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-        //}
-        //protected override void Mid()
-        //{
-        //    storage.Display(false,true);
-        //}
-        //protected override int Bot(bool action = true)
-        //{
-        //    int num = base.Bot(this.action);
-
-        //    if (num == 1)
-        //    {
-        //        this.action = false;
-        //        return 10;
-        //    }
-        //    return num;
-        //}
-
-        //protected override void Top2()
-        //{
-        //    Console.WriteLine("인벤토리 - 장착관리");
-        //    Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-        //}
-        //protected override void Mid2()
-        //{
-        //    storage.Display(true,true);
-        //}
-
-        //protected override int Bot2(bool action = true)
-        //{
-        //    int num = base.Bot(this.action);
-
-        //    if(num > 0 && num <= storage.items.Count)
-        //    {
-        //        Item i = storage.items[num - 1];
-
-        //        if (Character.instance.IsEquip(i))
-        //        {
-        //            Console.WriteLine($"\n{i.name} 장착 해제.");
-        //            Character.instance.equip.Remove(i);
-
-        //            if ((int)i.type == 0) Character.instance.status.att -= i.stat;
-        //            else Character.instance.status.def -= i.stat;
-        //        }
-        //        else
-        //        {
-        //            foreach(Item item in storage.items)
-        //            {
-        //                if(i.type == item.type)
-        //                {
-        //                    storage.items.Remove(item);
-
-        //                    if ((int)i.type == 0) Character.instance.status.att -= i.stat;
-        //                    else Character.instance.status.def -= i.stat;
-
-        //                    break;
-        //                }
-        //            }
-
-        //            Console.WriteLine($"\n{i.name}을 장착.");
-        //            Character.instance.equip.Add(i);
-
-        //            if ((int)i.type == 0) Character.instance.status.att += i.stat;
-        //            else Character.instance.status.def += i.stat;
-        //        }
-
-        //        Thread.Sleep(1000);
-        //    }
-
-        //    if (num != 0) return 10;
-
-        //    return num;
-        //}
-        #endregion
-
         Storage inventory;
         string msg2;
         public InventoryScene()
@@ -420,7 +247,7 @@ namespace SpartaDungeon
                 Console.Clear();
                 Console.WriteLine(msg);
 
-                inventory.Display(false,true);
+                inventory.Display(4);
                 PrintAction();
                 index = Input();
 
@@ -446,7 +273,7 @@ namespace SpartaDungeon
                 Console.Clear();
                 Console.WriteLine(msg2);
 
-                inventory.Display(true, true);
+                inventory.Display(12);
                 index = Input();
 
                 switch (index)
@@ -491,154 +318,6 @@ namespace SpartaDungeon
 
     public class ShopScene : Scene //상점화면
     {
-        #region 주석
-        //public override int Display()
-        //{
-
-        //    Console.WriteLine("상점");
-        //    Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-
-        //    Console.WriteLine("[보유 골드]");
-        //    Console.WriteLine($"{Character.instance.status.gold} G\n");
-
-        //    storage.Display(false);
-
-
-        //    int index = base.Display();
-
-        //    while (index == 1)
-        //    {
-        //        Console.Clear();
-        //        Console.WriteLine("상점 - 아이템 구매");
-        //        Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-
-        //        Console.WriteLine("[보유 골드]");
-        //        Console.WriteLine($"{Character.instance.status.gold} G\n");
-
-        //        storage.Display(true, true);
-
-        //        int num = Input(storage.items.Count);
-
-        //        if (num == 0) break;
-        //        if (num == -1) continue;
-        //        Trade(storage.items[num - 1]);
-        //    }
-
-        //    return 0;
-        //}
-
-        //private void Trade(Item i)
-        //{
-        //    ref int gold = ref Character.instance.status.gold;
-        //    int value = i.value;
-
-        //    if (i.ea == 0)
-        //        Console.WriteLine("이미 구매한 아이템입니다.");
-
-        //    else if (gold > value)
-        //    {
-        //        gold -= value;
-        //        i.ea = 0;
-        //        Character.instance.inventory.Add(i);
-        //        Console.WriteLine($"{i.name} 구매를 완료했습니다.");
-        //    }
-
-        //    else if (gold < value)
-        //        Console.WriteLine("Gold가 부족합니다.");
-
-        //    Thread.Sleep(1000);
-        //}
-
-        //private Storage storage;
-
-        //public ShopScene()
-        //{
-        //    actionList = new List<string> { "아이템 구매","아이템 판매" };
-
-        //    storage = new Storage();
-
-        //    storage.items.Add(new Club());
-        //    storage.items.Add(new NewBieArmor());
-        //    storage.items.Add(new IronArmor());
-        //    storage.items.Add(new SpartaArmor());
-        //    storage.items.Add(new OldSword());
-        //    storage.items.Add(new BronzeAxe());
-        //    storage.items.Add(new SpartaSpear());
-
-        //    escape = true;
-        //    count = storage.items.Count;
-        //}
-
-        //protected override void Top()
-        //{
-        //    Console.WriteLine("상점");
-        //    Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-
-        //    Console.WriteLine("[보유 골드]");
-        //    Console.WriteLine($"{Character.instance.status.gold} G\n");
-        //}
-        //protected override void Mid()
-        //{
-        //    storage.Display(false,false);
-        //}
-
-        //protected override int Bot(bool action = true)
-        //{
-        //    int num = base.Bot(this.action);
-
-        //    if (num == 1)
-        //    {
-        //        this.action = false;
-        //        return 10;
-        //    }
-        //    return num;
-        //}
-
-        //protected override void Top2()
-        //{
-        //    Console.WriteLine("상점 - 아이템 구매");
-        //    Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-
-        //    Console.WriteLine("[보유 골드]");
-        //    Console.WriteLine($"{Character.instance.status.gold} G\n");
-        //}
-        //protected override void Mid2()
-        //{
-        //    storage.Display(true, false,true);
-        //}
-        //protected override int Bot2(bool action = true)
-        //{
-        //    int num = base.Bot(this.action);
-
-        //    if (num > 0 && num <= storage.items.Count)
-        //        Trade(storage.items[num - 1]);
-
-        //    if (num != 0) return 10;
-
-        //    return num;
-        //}
-        //private void Trade(Item i)
-        //{
-        //    ref int gold = ref Character.instance.status.gold;
-        //    int value = i.value;
-
-        //    if (i.ea == 0)
-        //        Console.WriteLine("\n이미 구매한 아이템입니다.");
-
-        //    else if (gold >= value)
-        //    {
-        //        gold -= value;
-        //        i.ea = 0;
-        //        Character.instance.inventory.Add(i);
-        //        Console.WriteLine($"\n{i.name} 구매를 완료했습니다.");
-        //    }
-
-        //    else if (gold < value)
-        //        Console.WriteLine("\nGold가 부족합니다.");
-
-        //    Thread.Sleep(1000);
-        //}
-        #endregion
         Storage storage;
         string bmsg, smsg;
         public ShopScene()
@@ -680,7 +359,7 @@ namespace SpartaDungeon
                 Console.WriteLine(msg);
 
                 PrintGold();
-                storage.Display(false);
+                storage.Display(0);
                 PrintAction();
                 index = Input();
 
@@ -710,7 +389,7 @@ namespace SpartaDungeon
                 Console.WriteLine(bmsg);
 
                 PrintGold();
-                storage.Display(true, false,true);
+                storage.Display(10);
                 index = Input();
 
                 switch (index)
@@ -752,62 +431,17 @@ namespace SpartaDungeon
                 Console.Clear();
                 Console.WriteLine(bmsg);
 
-                Character.instance.inventory.Display(true, true, true);
+                Character.instance.inventory.Display(13);
                 index = Input();
 
                 if (index == -1) continue;
+                return;
             }
         }
     }
 
     public class DungeonScene : Scene
     {
-        #region 주석
-        //bool clear = false;
-        //List<int> dungeon = new List<int>() { 5, 11, 17 };
-        //public DungeonScene()
-        //{
-        //    actionList = new List<string>
-        //    {
-        //        "쉬운 던전     | 방어력 5 이상 권장",
-        //        "일반 던전     | 방어력 11 이상 권장",
-        //        "어려운 던전    | 방어력 17 이상 권장"
-        //    };
-        //    escape = true;
-        //}
-        //protected override void Top()
-        //{
-        //    Console.WriteLine("던전입장");
-        //    Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.");
-
-        //}
-
-        //protected override void Mid()
-        //{
-        //    Console.WriteLine();
-        //}
-
-        //protected override void Top2()
-        //{
-        //    if(clear)
-        //    {
-        //        Console.WriteLine("던전 클리어");
-        //        Console.WriteLine("축하합니다!!");
-        //        Console.WriteLine("쉬운 던전을 클리어 하였습니다.");
-        //    }
-        //}
-        //protected override void Mid2()
-        //{
-        //    Console.WriteLine("[탐험 결과]");
-        //    if(clear)
-        //    {
-
-        //    }
-        //}
-
-
-        #endregion
-
         List<int> level;
         List<int> reward;
         public DungeonScene()

@@ -17,7 +17,16 @@ namespace SpartaDungeon
             items = new List<Item>();
         }
 
-        public void Display(bool index,bool character = false,bool showcase = false)
+
+        /*
+        레이어
+        1000 8 인덱스번호 출력
+        0100 4 캐릭터 출력
+        0010 2 상점 출력
+        0001 1 판매 출력
+        */
+
+        public void Display(int layer)
         {
             Console.WriteLine("[아이템 목록]");
 
@@ -25,12 +34,21 @@ namespace SpartaDungeon
             {
                 Item item = items[i];
                 string msg = $"- {item.name} | {item.type.ToString()} +{item.stat} | {item.info}";
+                    
+                if ((layer >> 2 & 1) == 1 && Character.instance.IsEquip(item)) msg = msg.Insert(1, " [E]"); //캐릭터가 장착했는지
+                if ((layer >> 3 & 1) == 1) msg = msg.Insert(1, $" {i + 1}"); //인덱스 번호가 필요한지
 
-                if(character && Character.instance.IsEquip(item)) msg = msg.Insert(1, " [E]");
-                if (index) msg = msg.Insert(1, $" {i + 1}");
+                //상점에서의 호출
+                if ((layer & 1) == 1 ||((layer >> 1 & 1) == 1 && item.ea > 0))
+                {
+                    int value = item.value;
+                    if ((layer & 1) == 1) value = (int)(value * 0.85f);
+                    
+                    msg += $" | {value} G";
+                }
+                else if ((layer >> 1 & 1) == 1 && item.ea == 0) msg += " | 구매완료";
 
-                if (showcase && item.ea > 0) msg += $" | {item.value} G";
-                else if (showcase && item.ea == 0) msg += " | 구매완료";
+
                 Console.WriteLine(msg);
             }
             Console.WriteLine();

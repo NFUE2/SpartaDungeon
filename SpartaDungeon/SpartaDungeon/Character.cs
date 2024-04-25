@@ -13,7 +13,7 @@ namespace SpartaDungeon
         public float att;
     }
 
-    public class Character : IDisplay
+    public class Character 
     {
         public static Character instance = null;
         public Status status { get; private set; }

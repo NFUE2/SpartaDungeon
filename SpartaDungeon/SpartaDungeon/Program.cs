@@ -1,4 +1,7 @@
-﻿namespace SpartaDungeon
+﻿using System.Diagnostics;
+using System.IO;
+
+namespace SpartaDungeon
 {
     internal class Program
     {
@@ -21,6 +24,10 @@
             return scenes;
         }
 
+        static void FileSave()
+        { 
+
+        }
 
         static void Main(string[] args)
         {

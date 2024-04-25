@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "aDUttL9dGqZZzYqIIcoKTCbNPUySb1rh7wKKU1gJCQM2cfqbBT/e7HiaT2hxdDib7thj8w8sqLOzwoB7mmCqRQ==",
+  "dgSpecHash": "89Sv61Ims5xdFUpQjv3GMOlAjwTNbip1eWV/c0ORfqIl4alH0wA6DyHHPPzBPox4ERiHUAf3/2SnA+k9uGE9FA==",
   "success": true,
   "projectFilePath": "D:\\Github\\SpartaDungeon\\SpartaDungeon\\SpartaDungeon\\SpartaDungeon.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\NFU\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
