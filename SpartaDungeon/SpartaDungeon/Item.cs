@@ -4,29 +4,60 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace SpartaDungeon
 {
+    public class Storage
+    {
+        public List<Item> items { get; private set; }
+
+        public Storage() 
+        {
+            items = new List<Item>();
+        }
+
+        public void Display(bool index,bool character = false,bool showcase = false)
+        {
+            Console.WriteLine("[아이템 목록]");
+
+            for (int i = 0; i < items.Count; i++)
+            {
+                Item item = items[i];
+                string msg = $"- {item.name} | {item.type.ToString()} +{item.stat} | {item.info}";
+
+                if(character && Character.instance.IsEquip(item)) msg = msg.Insert(1, " [E]");
+                if (index) msg = msg.Insert(1, $" {i + 1}");
+
+                if (showcase && item.ea > 0) msg += $" | {item.value} G";
+                else if (showcase && item.ea == 0) msg += " | 구매완료";
+                Console.WriteLine(msg);
+            }
+            Console.WriteLine();
+        }
+
+        public void Add(Item i)
+        {
+            items.Add(i);
+        }
+
+        public void Remove(Item i)
+        {
+            items.Remove(i);
+        }
+    }
+    public enum ItemType
+    {
+        공격력,
+        방어력,
+    }
+
     public class Item
     {
-        public enum Type
-        {
-            공격력,
-            방어력,
-        }
 
         public string name,info;
         public int stat, ea, value;
-        public Type type;
-
-        public void Display()
-        {
-            //Console.Write("\n");
-            if(Character.instance.IsEquip(this)) Console.Write("[E]");
-            Console.Write($"{name} | ");
-            Console.Write($"{type.ToString()} +{stat} | ");
-            Console.WriteLine($"{info}");
-        }
+        public ItemType type;
 
         public void ShowCaseDisplay()
         {
@@ -40,11 +71,13 @@ namespace SpartaDungeon
 
     #region 아이템들
 
+   
+
     public class NewBieArmor : Item
     {
         public NewBieArmor()
         {
-            type = Type.방어력;
+            type = ItemType.방어력;
             name = "수련자 갑옷";
             info = "수련에 도움을 주는 갑옷입니다.";
             stat = 5;
@@ -57,7 +90,7 @@ namespace SpartaDungeon
     {
         public IronArmor()
         {
-            type = Type.방어력;
+            type = ItemType.방어력;
             name = "무쇠갑옷";
             info = "무쇠로 만들어져 튼튼한 갑옷입니다.";
             stat = 9;
@@ -70,7 +103,7 @@ namespace SpartaDungeon
     {
         public SpartaArmor()
         {
-            type = Type.방어력;
+            type = ItemType.방어력;
             name = "스파르타의 갑옷";
             info = "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.";
             stat = 15;
@@ -78,12 +111,23 @@ namespace SpartaDungeon
             ea = 1;
         }
     }
-
+    public class Club : Item
+    {
+        public Club()
+        {
+            type = ItemType.공격력;
+            name = "몽둥이";
+            info = "나무 몽둥이 입니다.";
+            stat = 1;
+            value = 300;
+            ea = 1;
+        }
+    }
     public class OldSword : Item
     {
         public OldSword()
         {
-            type = Type.공격력;
+            type = ItemType.공격력;
             name = "낡은 검";
             info = "쉽게 볼 수 있는 낡은 검 입니다.";
             stat = 2;
@@ -96,7 +140,7 @@ namespace SpartaDungeon
     {
         public BronzeAxe()
         {
-            type = Type.공격력;
+            type = ItemType.공격력;
             name = "청동 도끼";
             info = "어디선가 사용됐던거 같은 도끼입니다. ";
             stat = 5;
@@ -109,7 +153,7 @@ namespace SpartaDungeon
     {
         public SpartaSpear()
         {
-            type = Type.공격력;
+            type = ItemType.공격력;
             name = "스파르타의 창";
             info = "스파르타의 전사들이 사용했다는 전설의 창입니다.";
             stat = 7;
@@ -117,6 +161,8 @@ namespace SpartaDungeon
             ea = 1;
         }
     }
+
+
 
     #endregion
 }

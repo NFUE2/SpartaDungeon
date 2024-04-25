@@ -1,58 +1,214 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.Marshalling;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace SpartaDungeon
 {
-    public class Scene
+    public abstract class Scene
     {
-        protected List<string> actionList;
+        #region 주석
+
+        //protected int count = 0;
+        //protected bool action = true;
+        //protected bool escape = false;
+
+        //private delegate void Handler();
+        //private delegate int Handler2(bool action = true);
+
+        //protected abstract void Top();
+        //protected abstract void Mid();
+        //protected virtual void Top2() { }
+        //protected virtual void Mid2() { }
+        //protected virtual int Bot2(bool action = true) { return 0; }
+
+
+        //protected virtual int Bot(bool action = true)
+        //{
+        //    int num;
+        //    while(true)
+        //    {
+        //        if (actionList != null && action)
+        //            for (int i = 0; i < actionList.Count; i++)
+        //                Console.WriteLine($"{i + 1}. {actionList[i]}");
+
+        //        if(escape) Console.WriteLine("0. 나가기");
+
+        //        Console.WriteLine("\n원하시는 행동을 입력해주세요.");
+        //        Console.Write(">>");
+
+        //        try
+        //        {
+        //            num = int.Parse(Console.ReadLine());
+        //        }
+        //        catch(FormatException e)
+        //        {
+        //            return -1;
+        //        }
+
+        //        if (!escape && num == 0) return -1;
+        //        if (num < 0 || num > count) return -1;
+        //        break;
+        //    }
+
+        //    return num;
+        //}
+
+        //public int Display() 
+        //{
+        //    if (actionList != null) count += actionList.Count;
+        //    Handler handler = new Handler(Top);
+        //    handler += Mid;
+        //    Handler2 handler2 = new Handler2(Bot);
+        //    while (true)
+        //    {
+        //        Console.Clear();
+        //        //Top();
+        //        //Mid();
+
+        //        handler();
+        //        int index = handler2();
+
+        //        if(index == 10)
+        //        {
+        //            handler = Top2;
+        //            handler += Mid2;
+        //            handler2 = Bot2;
+        //            continue;
+        //        }
+
+        //        if (index == -1)
+        //        {
+        //            Console.WriteLine("\n잘못된 입력입니다.");
+        //            Thread.Sleep(1000);
+        //            continue;
+        //        }
+
+        //        return index;
+        //    }
+        //}
+
+        //public virtual void SceneInfo(params string[] str)
+        //{
+        //    if (str.Length > 0)
+        //        foreach (string s in str)
+        //            Console.WriteLine(s);
+        //}
+
+        //public virtual void Action() { }
+
+        //public virtual int Display()
+        //{
+        //    int num = -1;
+
+        //    while(num == -1)
+        //    {
+        //        if (actionList != null)
+        //            for (int i = 0; i < actionList.Count; i++)
+        //                Console.WriteLine($"{i + 1}. {actionList[i]}");
+
+        //        num = Input(actionList.Count);
+        //    }
+
+        //    return num;
+        //}
+
+        //public int Input(int cnt = 0)
+        //{
+        //    if (escape) Console.WriteLine("0. 나가기");
+
+        //    Console.WriteLine("\n원하시는 행동을 입력해주세요.");
+        //    Console.Write(">>");
+
+        //    int num = int.Parse(Console.ReadLine());
+
+        //    if ((!escape && num == 0) || num < 0 || num > cnt)
+        //    {
+        //        Console.WriteLine("\n잘못된 입력입니다.");
+        //        Thread.Sleep(1000);
+        //        Console.Clear();
+        //        return -1;
+        //    }
+
+        //    return num;
+        //}
+        #endregion
+        protected int index,count;
         protected bool escape = false;
+        protected string msg;
+        protected List<string> actionList;
+        public abstract int Display();
 
-        public virtual int Display()
+        protected void PrintAction()
         {
-            if (actionList != null)
-                for (int i = 0; i < actionList.Count; i++)
-                    Console.WriteLine($"{i + 1}. {actionList[i]}");
-
-            if (escape) Escape();
-
-            return Input();
+            if(actionList != null)
+                for(int i = 0; i < actionList.Count; i++)
+                    Console.WriteLine($"{i + 1}. { actionList[i]}");
         }
 
-        public void Escape()
+        protected int Input()
         {
-            Console.WriteLine("0. 나가기");
-        }
-
-        
-        public int Input(List<Item> list = null)
-        {
+            if (escape) Console.WriteLine("0. 나가기\n");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
-            int num = int.Parse(Console.ReadLine());
 
+            try
+            {
+                index = int.Parse(Console.ReadLine());
+            }
+            catch(FormatException e)
+            {
+                index =  -1;
+            }
 
+            if (!escape && index == 0) index = -1;
+            if (index < 0 || index > count) index = -1;
 
-            return num;
+            if(index == -1)
+            {
+                Console.WriteLine("\n잘못된 입력입니다");
+                Thread.Sleep(1000);
+            }
+
+            return index;
         }
     }
 
     public class MainScene : Scene //메인 화면
     {
+        #region 주석
+        //protected override void Top()
+        //{
+        //    Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.");
+        //}
+        //protected override void Mid()
+        //{
+        //    Console.WriteLine();
+        //}
+        #endregion
         public MainScene()
         {
-            actionList = new List<string>() { "상태 보기", "인벤토리", "상점" };
-            escape = false;
+            msg = "스파르타 마을에 오신 여러분 환영합니다.\n이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n";
+            actionList = new List<string>() { "상태 보기", "인벤토리", "상점", "던전입장","휴식하기" };
+            count = actionList.Count;
         }
 
         public override int Display()
         {
-            Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n");
+            while(true)
+            {
+                Console.Clear();
+                Console.WriteLine(msg);
 
-            return base.Display();
+                PrintAction();
+                index = Input();
+
+                if (index == -1) continue;
+                return index;
+            }
         }
     }
 
@@ -60,198 +216,733 @@ namespace SpartaDungeon
     {
         public StatusScene()
         {
+            msg = "상태 보기\n캐릭터의 정보가 표시됩니다.\n";
             escape = true;
         }
+        #region 주석
+        //public StatusScene()
+        //{
+        //    escape = true;
+        //}
+
+        //public override int Display()
+        //{
+        //    //캐릭터의 정보를 가져와야할듯. 싱글톤을 쓰는게 좋을것 같음
+
+        //    Console.WriteLine("상태 보기");
+        //    Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+
+        //    Character.instance.Display();
+
+        //    return Input();
+        //}
+
+        //public StatusScene()
+        //{
+        //    escape = true;
+        //}
+
+        //protected override void Top()
+        //{
+        //    Console.WriteLine("상태 보기");
+        //    Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+        //}
+        //protected override void Mid()
+        //{
+        //    Character.instance.Display();
+        //}
+        #endregion
+
+
         public override int Display()
         {
-            //캐릭터의 정보를 가져와야할듯. 싱글톤을 쓰는게 좋을것 같음
-            Console.WriteLine("상태 보기");
-            Console.WriteLine("캐릭터의 정보가 표시됩니다.\n");
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(msg);
 
-            Status s = Character.instance.status;
+                Character.instance.Display();
+                index = Input();
 
-            Console.WriteLine($"Lv. {s.level}");
-            Console.WriteLine($"이름 : {s.name}");
-            Console.WriteLine($"Chad : ( {s.major} )");
-            Console.WriteLine($"공격력 : {s.att}");
-            Console.WriteLine($"방어력 : {s.def}");
-            Console.WriteLine($"체 력 : {s.hp}");
-            Console.WriteLine($"Gold : {s.gold} G\n");
-
-            Escape();
-
-            return Input();
+                if (index == -1) continue;
+                return index;
+            }
         }
     }
 
     public class InventoryScene : Scene //인벤토리 화면
     {
+        #region 주석
+        //public override int Display()
+        //{
+        //    Storage storage = Character.instance.inventory;
+        //    List<Item> items = storage.items;
+
+        //    Console.WriteLine("인벤토리");
+        //    Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
+
+        //    storage.Display(false);
+
+        //    int index = base.Display();
+
+        //    while (index == 1)
+        //    {
+        //        Console.Clear();
+        //        Console.WriteLine("인벤토리 - 장착관리");
+        //        Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+
+        //        storage.Display(true);
+
+        //        int num = Input(items.Count);
+        //        if (num == 0) break;
+        //        if (num == -1) continue;
+
+        //        Item i = items[num - 1];
+
+        //        if (Character.instance.IsEquip(i))
+        //            Console.WriteLine("이미 착용한 아이템입니다.");
+        //        else
+        //        {
+        //            Console.WriteLine($"{items[num - 1].name}을 장비합니다.");
+        //            Character.instance.equip.Add(i);
+
+        //            if ((int)i.type == 0) Character.instance.status.addAtt += i.stat;
+        //            else Character.instance.status.addDef += i.stat;
+        //        }
+
+        //        Thread.Sleep(1000);
+        //    }
+
+        //    return 0;
+        //}
+        //Storage storage = Character.instance.inventory;
+
+        //public InventoryScene()
+        //{
+        //    actionList = new List<string> { "장착관리" };
+        //    escape = true;
+        //}
+
+        //protected override void Top()
+        //{
+        //    Console.WriteLine("인벤토리");
+        //    Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+        //}
+        //protected override void Mid()
+        //{
+        //    storage.Display(false,true);
+        //}
+        //protected override int Bot(bool action = true)
+        //{
+        //    int num = base.Bot(this.action);
+
+        //    if (num == 1)
+        //    {
+        //        this.action = false;
+        //        return 10;
+        //    }
+        //    return num;
+        //}
+
+        //protected override void Top2()
+        //{
+        //    Console.WriteLine("인벤토리 - 장착관리");
+        //    Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
+        //}
+        //protected override void Mid2()
+        //{
+        //    storage.Display(true,true);
+        //}
+
+        //protected override int Bot2(bool action = true)
+        //{
+        //    int num = base.Bot(this.action);
+
+        //    if(num > 0 && num <= storage.items.Count)
+        //    {
+        //        Item i = storage.items[num - 1];
+
+        //        if (Character.instance.IsEquip(i))
+        //        {
+        //            Console.WriteLine($"\n{i.name} 장착 해제.");
+        //            Character.instance.equip.Remove(i);
+
+        //            if ((int)i.type == 0) Character.instance.status.att -= i.stat;
+        //            else Character.instance.status.def -= i.stat;
+        //        }
+        //        else
+        //        {
+        //            foreach(Item item in storage.items)
+        //            {
+        //                if(i.type == item.type)
+        //                {
+        //                    storage.items.Remove(item);
+
+        //                    if ((int)i.type == 0) Character.instance.status.att -= i.stat;
+        //                    else Character.instance.status.def -= i.stat;
+
+        //                    break;
+        //                }
+        //            }
+
+        //            Console.WriteLine($"\n{i.name}을 장착.");
+        //            Character.instance.equip.Add(i);
+
+        //            if ((int)i.type == 0) Character.instance.status.att += i.stat;
+        //            else Character.instance.status.def += i.stat;
+        //        }
+
+        //        Thread.Sleep(1000);
+        //    }
+
+        //    if (num != 0) return 10;
+
+        //    return num;
+        //}
+        #endregion
+
+        Storage inventory;
+        string msg2;
         public InventoryScene()
         {
-            actionList = new List<string> { "장착관리" };
+            msg = "인벤토리\n보유 중인 아이템을 관리할 수 있습니다.\n";
+            msg2 = "인벤토리 - 장착 관리\n보유 중인 아이템을 관리할 수 있습니다.\n";
+
+            actionList = new List<string>() { "장착 관리"};
+            inventory = Character.instance.inventory;
+            count = actionList.Count;
             escape = true;
         }
-
         public override int Display()
         {
-            List<Item> items = Character.instance.inventory;
-
-            Console.WriteLine("인벤토리");
-            Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-            Console.WriteLine("[아이템 목록]");
-
-            for (int i = 0; i < items.Count; i++)
-            {
-                Console.Write("- ");
-                items[i].Display();
-            }
-            Console.WriteLine();
-
-            int index = base.Display();
-
-            while(index == 1)
+            while (true)
             {
                 Console.Clear();
-                Console.WriteLine("인벤토리 - 장착관리");
-                Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.\n");
-                Console.WriteLine("[아이템 목록]");
+                Console.WriteLine(msg);
 
-                for (int i = 0; i < items.Count; i++)
+                inventory.Display(false,true);
+                PrintAction();
+                index = Input();
+
+                switch (index)
                 {
-                    Console.Write($"- {i+1} ");
-                    items[i].Display();
-                }
-                Console.WriteLine();
-
-                Escape();
-
-                int num = Input();
-                if (num == 0) break;
-
-                else if(num >= 1 && num <= items.Count)
-                {
-                    Item i = items[num - 1];
-
-                    if (Character.instance.IsEquip(i))
-                        Console.WriteLine("이미 착용한 아이템입니다.");
-                    else
-                    {
-                        Console.WriteLine($"{items[num - 1].name}을 장비합니다.");
-                        Character.instance.equip.Add(i);
-                    }
-
-                    Thread.Sleep(1000);
+                    case -1:
+                        break;
+                    case 0: 
+                        return 0;
+                    case 1:
+                        Equip();
+                        break;
                 }
             }
+        }
 
-            return 0;
+        private void Equip()
+        {
+            count = inventory.items.Count;
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(msg2);
+
+                inventory.Display(true, true);
+                index = Input();
+
+                switch (index)
+                {
+                    case -1:
+                        break;
+                    case 0:
+                        return;
+                    default:
+                        Item i = inventory.items[index - 1];
+                        if(Character.instance.IsEquip(i))
+                        {
+                            Character.instance.equip.Remove(i);
+                            if ((int)i.type == 0) Character.instance.status.att -= i.stat;
+                            else Character.instance.status.def -= i.stat;
+                            Console.WriteLine($"{i.name} 장착해제");
+                        }
+                        else
+                        {
+                            foreach(Item item in inventory.items)
+                            {
+                                if(i.type == item.type)
+                                {
+                                    Character.instance.equip.Remove(item);
+                                    if ((int)i.type == 0) Character.instance.status.att -= item.stat;
+                                    else Character.instance.status.def -= item.stat;
+                                    break;
+                                }
+                            }
+
+                            Character.instance.equip.Add(i);
+                            if ((int)i.type == 0) Character.instance.status.att += i.stat;
+                            else Character.instance.status.def += i.stat;
+                            Console.WriteLine($"{i.name} 장착");
+                        }
+                        Thread.Sleep(1000);
+                        break;
+                }
+            }
         }
     }
 
     public class ShopScene : Scene //상점화면
     {
-        List<Item> items;
+        #region 주석
+        //public override int Display()
+        //{
 
-        public static ShopScene instance;
+        //    Console.WriteLine("상점");
+        //    Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
 
-        public ShopScene Instance
-        {
-            get
-            {
-                if(instance == null)
-                    instance = new ShopScene();
-                
-                return instance;
-            }
-        } //싱글톤
+        //    Console.WriteLine("[보유 골드]");
+        //    Console.WriteLine($"{Character.instance.status.gold} G\n");
 
+        //    storage.Display(false);
+
+
+        //    int index = base.Display();
+
+        //    while (index == 1)
+        //    {
+        //        Console.Clear();
+        //        Console.WriteLine("상점 - 아이템 구매");
+        //        Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+
+        //        Console.WriteLine("[보유 골드]");
+        //        Console.WriteLine($"{Character.instance.status.gold} G\n");
+
+        //        storage.Display(true, true);
+
+        //        int num = Input(storage.items.Count);
+
+        //        if (num == 0) break;
+        //        if (num == -1) continue;
+        //        Trade(storage.items[num - 1]);
+        //    }
+
+        //    return 0;
+        //}
+
+        //private void Trade(Item i)
+        //{
+        //    ref int gold = ref Character.instance.status.gold;
+        //    int value = i.value;
+
+        //    if (i.ea == 0)
+        //        Console.WriteLine("이미 구매한 아이템입니다.");
+
+        //    else if (gold > value)
+        //    {
+        //        gold -= value;
+        //        i.ea = 0;
+        //        Character.instance.inventory.Add(i);
+        //        Console.WriteLine($"{i.name} 구매를 완료했습니다.");
+        //    }
+
+        //    else if (gold < value)
+        //        Console.WriteLine("Gold가 부족합니다.");
+
+        //    Thread.Sleep(1000);
+        //}
+
+        //private Storage storage;
+
+        //public ShopScene()
+        //{
+        //    actionList = new List<string> { "아이템 구매","아이템 판매" };
+
+        //    storage = new Storage();
+
+        //    storage.items.Add(new Club());
+        //    storage.items.Add(new NewBieArmor());
+        //    storage.items.Add(new IronArmor());
+        //    storage.items.Add(new SpartaArmor());
+        //    storage.items.Add(new OldSword());
+        //    storage.items.Add(new BronzeAxe());
+        //    storage.items.Add(new SpartaSpear());
+
+        //    escape = true;
+        //    count = storage.items.Count;
+        //}
+
+        //protected override void Top()
+        //{
+        //    Console.WriteLine("상점");
+        //    Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+
+        //    Console.WriteLine("[보유 골드]");
+        //    Console.WriteLine($"{Character.instance.status.gold} G\n");
+        //}
+        //protected override void Mid()
+        //{
+        //    storage.Display(false,false);
+        //}
+
+        //protected override int Bot(bool action = true)
+        //{
+        //    int num = base.Bot(this.action);
+
+        //    if (num == 1)
+        //    {
+        //        this.action = false;
+        //        return 10;
+        //    }
+        //    return num;
+        //}
+
+        //protected override void Top2()
+        //{
+        //    Console.WriteLine("상점 - 아이템 구매");
+        //    Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+
+        //    Console.WriteLine("[보유 골드]");
+        //    Console.WriteLine($"{Character.instance.status.gold} G\n");
+        //}
+        //protected override void Mid2()
+        //{
+        //    storage.Display(true, false,true);
+        //}
+        //protected override int Bot2(bool action = true)
+        //{
+        //    int num = base.Bot(this.action);
+
+        //    if (num > 0 && num <= storage.items.Count)
+        //        Trade(storage.items[num - 1]);
+
+        //    if (num != 0) return 10;
+
+        //    return num;
+        //}
+        //private void Trade(Item i)
+        //{
+        //    ref int gold = ref Character.instance.status.gold;
+        //    int value = i.value;
+
+        //    if (i.ea == 0)
+        //        Console.WriteLine("\n이미 구매한 아이템입니다.");
+
+        //    else if (gold >= value)
+        //    {
+        //        gold -= value;
+        //        i.ea = 0;
+        //        Character.instance.inventory.Add(i);
+        //        Console.WriteLine($"\n{i.name} 구매를 완료했습니다.");
+        //    }
+
+        //    else if (gold < value)
+        //        Console.WriteLine("\nGold가 부족합니다.");
+
+        //    Thread.Sleep(1000);
+        //}
+        #endregion
+        Storage storage;
+        string bmsg, smsg;
         public ShopScene()
         {
-            if (instance == null) instance = this;
+            storage = new Storage();
 
-            actionList = new List<string> { "아이템 구매" };
+            storage.items.Add(new Club());
+            storage.items.Add(new NewBieArmor());
+            storage.items.Add(new IronArmor());
+            storage.items.Add(new SpartaArmor());
+            storage.items.Add(new OldSword());
+            storage.items.Add(new BronzeAxe());
+            storage.items.Add(new SpartaSpear());
 
-            items = new List<Item>()
+            actionList = new List<string> { "아이템 구매", "아이템 판매" };
+
+            escape = true;
+
+            msg = "상점\n필요한 아이템을 얻을 수 있는 상점입니다.\n";
+            bmsg = "상점 - 아이템 구매\n필요한 아이템을 얻을 수 있는 상점입니다.\n";
+            smsg = "상점 - 아이템 판매\n필요한 아이템을 얻을 수 있는 상점입니다.\n";
+            
+        }
+
+        private void PrintGold()
+        {
+            ref int gold = ref Character.instance.status.gold;
+            Console.WriteLine("[보유 골드]");
+            Console.WriteLine($"{gold} G\n");
+
+        }
+
+        public override int Display()
+        {
+            count = actionList.Count;
+            while (true)
             {
-                new NewBieArmor(),
-                new IronArmor(),
-                new SpartaArmor(),
-                new OldSword(),
-                new BronzeAxe(),
-                new SpartaSpear()
-            };
+                Console.Clear();
+                Console.WriteLine(msg);
 
+                PrintGold();
+                storage.Display(false);
+                PrintAction();
+                index = Input();
+
+                switch (index)
+                {
+                    case -1:
+                        break;
+                    case 0:
+                        return 0;
+                    case 1:
+                        Buy();
+                        break;
+                    case 2:
+                        Sell();
+                        break;
+                }
+            }
+        }
+
+        private void Buy()
+        {
+            count = storage.items.Count;
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(bmsg);
+
+                PrintGold();
+                storage.Display(true, false,true);
+                index = Input();
+
+                switch (index)
+                {
+                    case -1: break;
+                    case 0: return;
+                    default:
+                        Item i = storage.items[index - 1];
+                        ref int gold = ref Character.instance.status.gold;
+
+                        if (i.ea == 0) Console.WriteLine("이미 구매한 아이템입니다");
+                        else if(gold >= i.value)
+                        {
+                            Character.instance.inventory.Add(i);
+                            gold -= i.value;
+                            i.ea = 0;
+                            Console.WriteLine("구매를 완료했습니다.");
+                        }
+                        else if(gold < i.value)
+                        {
+                            Console.WriteLine("Gold 가 부족합니다. ");
+                        }
+
+                        Thread.Sleep(1000);
+
+                        break;
+                }
+
+                if (index == -1) continue;
+
+            }
+        }
+        private void Sell()
+        {
+            count = Character.instance.inventory.items.Count;
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(bmsg);
+
+                Character.instance.inventory.Display(true, true, true);
+                index = Input();
+
+                if (index == -1) continue;
+            }
+        }
+    }
+
+    public class DungeonScene : Scene
+    {
+        #region 주석
+        //bool clear = false;
+        //List<int> dungeon = new List<int>() { 5, 11, 17 };
+        //public DungeonScene()
+        //{
+        //    actionList = new List<string>
+        //    {
+        //        "쉬운 던전     | 방어력 5 이상 권장",
+        //        "일반 던전     | 방어력 11 이상 권장",
+        //        "어려운 던전    | 방어력 17 이상 권장"
+        //    };
+        //    escape = true;
+        //}
+        //protected override void Top()
+        //{
+        //    Console.WriteLine("던전입장");
+        //    Console.WriteLine("이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.");
+
+        //}
+
+        //protected override void Mid()
+        //{
+        //    Console.WriteLine();
+        //}
+
+        //protected override void Top2()
+        //{
+        //    if(clear)
+        //    {
+        //        Console.WriteLine("던전 클리어");
+        //        Console.WriteLine("축하합니다!!");
+        //        Console.WriteLine("쉬운 던전을 클리어 하였습니다.");
+        //    }
+        //}
+        //protected override void Mid2()
+        //{
+        //    Console.WriteLine("[탐험 결과]");
+        //    if(clear)
+        //    {
+
+        //    }
+        //}
+
+
+        #endregion
+
+        List<int> level;
+        List<int> reward;
+        public DungeonScene()
+        {
+            actionList = new List<string> 
+            { "쉬운 던전     | 방어력 5 이상 권장", 
+                "일반 던전     | 방어력 11 이상 권장", 
+                "어려운 던전    | 방어력 17 이상 권장"
+            };
+            level = new List<int>() { 5, 11, 7 };
+            reward = new List<int>() { 1000,1700,2500};
+            escape = true;
+
+            msg = "던전입장\n이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n";
+            count = actionList.Count; 
+        }
+        public override int Display()
+        {
+            while(true)
+            {
+                Console.Clear();
+                Console.WriteLine(msg);
+
+                PrintAction();
+                index = Input();
+
+                switch (index)
+                {
+                    case -1:
+                        break;
+                    case 0:
+                        return 0;
+                    default:
+                        Result(index - 1);
+                        return 0;
+                }
+            }
+        }
+
+        public void Result(int l)
+        {
+            Console.Clear();
+
+            int p;
+            bool clear= true;
+            Random random = new Random();
+            Status status = Character.instance.status;
+
+            if (status.def < level[l])
+            {
+                p = random.Next(0, 100);
+
+                if (p < 40) clear = false;
+
+            }
+
+            if (clear)
+            {
+                Console.WriteLine("던전 클리어");
+                Console.WriteLine("축하합니다!!");
+                Console.WriteLine("던전을 클리어 하였습니다.!!");
+
+                Console.WriteLine("[탐험 결과]");
+
+                int min = level[l] - status.def;
+
+                int damage = p = random.Next(20 + min, 36 + min);
+                float addReward = random.Next((int)status.att, (int)(status.att * 2)) / 100;
+
+                int gold = reward[l] + (int)(reward[l] * addReward);
+
+                Console.WriteLine($"체력 {status.hp} -> {status.hp - damage}");
+                Console.WriteLine($"Gold {status.gold} -> {status.gold + gold}");
+
+                status.level++;
+                status.def += 1;
+                status.att += 0.5f;
+                status.gold += gold;
+                status.hp -= damage;
+            }
+            else
+            {
+                Console.WriteLine("던전 실패");
+                Console.WriteLine("[탐험 결과]");
+                Console.WriteLine($"{status.hp} -> {status.hp / 2}");
+
+                status.hp /= 2;
+            }
+            Thread.Sleep(1000);
+        }
+    }
+
+    public class Rest : Scene
+    {
+        public Rest()
+        {
+            msg = $"휴식하기\n500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {Character.instance.status.gold} G)";
+            actionList = new List<string>() { "휴식하기"};
+            count = actionList.Count;
             escape = true;
         }
 
         public override int Display()
         {
-            Console.WriteLine("상점");
-            Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
-
-            Console.WriteLine("[보유 골드]");
-            Console.WriteLine($"{Character.instance.status.gold} G\n");
-
-            Console.WriteLine("[아이템 목록]");
-            for (int i = 0; i < items.Count; i++)
-            {
-                Console.Write("- ");
-                items[i].Display();
-            }
-            Console.WriteLine();
-
-            int index = base.Display();
-
-            while(index == 1)
+            while (true)
             {
                 Console.Clear();
-                Console.WriteLine("상점 - 아이템 구매");
-                Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.\n");
+                Console.WriteLine(msg);
 
-                Console.WriteLine("[보유 골드]");
-                Console.WriteLine($"{Character.instance.status.gold} G\n");
+                PrintAction();
+                index = Input();
 
-                Console.WriteLine("[아이템 목록]");
-                for (int i = 0; i < items.Count; i++)
+                switch (index)
                 {
-                    Console.Write($"- {i + 1} ");
-                    items[i].ShowCaseDisplay();
+                    case -1: break;
+                    case 0: return 0;
+                    default:
+                        RestAction();
+                        break;
                 }
-
-                Console.WriteLine();
-
-                Escape();
-                int num = Input();
-
-                if (num == 0) break;
-                else if(1 <= num && num <= items.Count) Trade(items[num - 1]);
-                else Console.WriteLine("잘못된 입력입니다.");
             }
-
-            return 0;
         }
 
-        private void Trade(Item i)
+        private void RestAction()
         {
             ref int gold = ref Character.instance.status.gold;
-            int value = i.value;
 
-
-            if (i.ea == 0)
-                Console.WriteLine("이미 구매한 아이템입니다.");
-
-            else if(gold > value)
+            if(gold >= 500)
             {
-                gold -= value; 
-                i.ea = 0;
-                Character.instance.inventory.Add(i);
-                Console.WriteLine($"{i.name} 구매를 완료했습니다.");
+                gold -= 500;
+                Character.instance.status.hp = 100;
+                Console.WriteLine("휴식을 완료했습니다.");
             }
-
-            else if(gold < value)
-                Console.WriteLine("Gold가 부족합니다.");
-
-            Thread.Sleep(1000);
+            else
+                Console.WriteLine("Gold 가 부족합니다.");
         }
     }
 }

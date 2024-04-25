@@ -8,15 +8,16 @@ namespace SpartaDungeon
 {
     public class Status
     {
-        public int level, hp, gold, att, def;
+        public int level, hp, gold, def;
         public string major, name;
+        public float att;
     }
 
-    public class Character
+    public class Character : IDisplay
     {
         public static Character instance = null;
         public Status status { get; private set; }
-        public List<Item> inventory { get; set; }
+        public Storage inventory { get; set; }
         public List<Item> equip { get; set; }
 
         public Character Instance
@@ -33,7 +34,7 @@ namespace SpartaDungeon
         public Character()
         {
             if (instance == null) instance = this;
-            inventory = new List<Item>();
+            inventory = new Storage();
             status = new Status();
             equip = new List<Item>();
 
@@ -49,6 +50,37 @@ namespace SpartaDungeon
         public bool IsEquip(Item i)
         {
             return equip.Contains(i);
+        }
+
+        public int Display()
+        {
+            Status s = status;
+
+            int addAtt = 0;
+            int addDef = 0;
+
+            foreach(var i in equip)
+            {
+                if ((int)i.type == 0) addAtt += i.stat;
+                else addDef += i.stat;
+            }
+
+            Console.WriteLine($"Lv. {s.level}");
+            Console.WriteLine($"이름 : {s.name}");
+            Console.WriteLine($"Chad : ( {s.major} )");
+
+            Console.Write($"공격력 : {s.att}");
+            if (addAtt > 0) Console.WriteLine($" (+{addAtt})");
+            else Console.WriteLine();
+
+            Console.Write($"방어력 : {s.def}");
+            if (addDef > 0) Console.WriteLine($" (+{addDef})");
+            else Console.WriteLine();
+
+            Console.WriteLine($"체 력 : {s.hp}");
+            Console.WriteLine($"Gold : {s.gold} G\n");
+
+            return 0;
         }
     }
 }

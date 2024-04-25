@@ -6,15 +6,17 @@
         {
             List<Scene> scenes = new List<Scene>();
 
-            MainScene main = new MainScene();
-            StatusScene status = new StatusScene();
-            InventoryScene inventory = new InventoryScene();
-            ShopScene shop = new ShopScene();
-
-            scenes.Add(main);
-            scenes.Add(status);
-            scenes.Add(inventory);
-            scenes.Add(shop);
+            //MainScene main = new MainScene();
+            //StatusScene status = new StatusScene();
+            //InventoryScene inventory = new InventoryScene();
+            //ShopScene shop = new ShopScene();
+            //DungeonScene dungeon = new DungeonScene();
+            scenes.Add(new MainScene());
+            scenes.Add(new StatusScene());
+            scenes.Add(new InventoryScene());
+            scenes.Add(new ShopScene());
+            scenes.Add(new DungeonScene());
+            scenes.Add(new Rest());
 
             return scenes;
         }
@@ -26,14 +28,11 @@
             Character c = new Character();
             List<Scene> scenes = SettingScenes();
 
-            Console.WriteLine("스파르타 마을에 오신 여러분 환영합니다.");
-
             while (true)
             {
                 index = scenes[index].Display();
                 Console.WriteLine("\n이동합니다.\n");
                 Thread.Sleep(1000);
-                Console.Clear();
             }
         }
     }
