@@ -42,7 +42,6 @@ namespace SpartaDungeon
             json = JsonConvert.SerializeObject(Character.instance.equip);
             File.WriteAllText(path + "/equip.txt", json);
         }
-
         static bool FileLoad()
         {
             if (!File.Exists(path + "/status.txt"))
@@ -61,7 +60,7 @@ namespace SpartaDungeon
             Storage inventory = JsonConvert.DeserializeObject<Storage>
                (str);
 
-            Character c = new Character(status,inventory,equip);
+            Character c = new Character(ref status,ref inventory,ref equip);
             Console.WriteLine(c.status.gold);
             return true;
         }
@@ -72,14 +71,23 @@ namespace SpartaDungeon
                 FileSave();
 
             List<Scene> scenes = SettingScenes();
-            int index = 0;
+            int index = 0,sceneNum;
 
             while (true)
             {
-                index = scenes[index].Display();
+                sceneNum = scenes[index].Display();
+                if (sceneNum == 0 && index == 0)
+                {
+                    Console.WriteLine("게임을 종료합니다.");
+                    break;
+                }
+                index = sceneNum;
                 Console.WriteLine("\n이동합니다.\n");
                 Thread.Sleep(1000);
             }
+
+            FileSave();
+            Environment.Exit(0);
         }
 
 

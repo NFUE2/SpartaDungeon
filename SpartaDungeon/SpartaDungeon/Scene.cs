@@ -8,7 +8,7 @@ using static System.Collections.Specialized.BitVector32;
 
 namespace SpartaDungeon
 {
-    public abstract class Scene
+    public abstract class Scene 
     {
         #region 주석
 
@@ -137,7 +137,7 @@ namespace SpartaDungeon
         //}
         #endregion
         protected int index,count;
-        protected bool escape = false;
+        //protected bool escape = false;
         protected string msg;
         protected List<string> actionList;
         public abstract int Display();
@@ -147,11 +147,12 @@ namespace SpartaDungeon
             if(actionList != null)
                 for(int i = 0; i < actionList.Count; i++)
                     Console.WriteLine($"{i + 1}. { actionList[i]}");
+            Console.WriteLine("0. 나가기\n");
         }
 
         protected int Input()
         {
-            if (escape) Console.WriteLine("0. 나가기\n");
+            //if (escape) Console.WriteLine("0. 나가기\n");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
@@ -164,7 +165,7 @@ namespace SpartaDungeon
                 index =  -1;
             }
 
-            if (!escape && index == 0) index = -1;
+            //if (!escape && index == 0) index = -1;
             if (index < 0 || index > count) index = -1;
 
             if(index == -1)
@@ -188,7 +189,8 @@ namespace SpartaDungeon
 
         public override int Display()
         {
-            while(true)
+
+            while (true)
             {
                 Console.Clear();
                 Console.WriteLine(msg);
@@ -207,7 +209,7 @@ namespace SpartaDungeon
         public StatusScene()
         {
             msg = "상태 보기\n캐릭터의 정보가 표시됩니다.\n";
-            escape = true;
+            //escape = true;
         }
 
         public override int Display()
@@ -238,7 +240,7 @@ namespace SpartaDungeon
             actionList = new List<string>() { "장착 관리"};
             inventory = Character.instance.inventory;
             count = actionList.Count;
-            escape = true;
+            //escape = true;
         }
         public override int Display()
         {
@@ -293,7 +295,7 @@ namespace SpartaDungeon
                         }
                         else
                         {
-                            foreach(Item item in inventory.items)
+                            foreach(Item item in Character.instance.equip)
                             {
                                 if(i.type == item.type)
                                 {
@@ -334,7 +336,7 @@ namespace SpartaDungeon
 
             actionList = new List<string> { "아이템 구매", "아이템 판매" };
 
-            escape = true;
+            //escape = true;
 
             msg = "상점\n필요한 아이템을 얻을 수 있는 상점입니다.\n";
             bmsg = "상점 - 아이템 구매\n필요한 아이템을 얻을 수 있는 상점입니다.\n";
@@ -347,7 +349,6 @@ namespace SpartaDungeon
             ref int gold = ref Character.instance.status.gold;
             Console.WriteLine("[보유 골드]");
             Console.WriteLine($"{gold} G\n");
-
         }
 
         public override int Display()
@@ -446,14 +447,14 @@ namespace SpartaDungeon
         List<int> reward;
         public DungeonScene()
         {
-            actionList = new List<string> 
-            { "쉬운 던전     | 방어력 5 이상 권장", 
-                "일반 던전     | 방어력 11 이상 권장", 
-                "어려운 던전    | 방어력 17 이상 권장"
-            };
             level = new List<int>() { 5, 11, 7 };
             reward = new List<int>() { 1000,1700,2500};
-            escape = true;
+            //escape = true;
+            actionList = new List<string> 
+            { $"쉬운 던전     | 방어력 {level[0]} 이상 권장", 
+              $"일반 던전     | 방어력 {level[1]} 이상 권장", 
+              $"어려운 던전    | 방어력 {level[2]} 이상 권장"
+            };
 
             msg = "던전입장\n이곳에서 던전으로 들어가기전 활동을 할 수 있습니다.\n";
             count = actionList.Count; 
@@ -538,10 +539,9 @@ namespace SpartaDungeon
     {
         public Rest()
         {
-            msg = $"휴식하기\n500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {Character.instance.status.gold} G)";
             actionList = new List<string>() { "휴식하기"};
             count = actionList.Count;
-            escape = true;
+            //escape = true;
         }
 
         public override int Display()
@@ -549,7 +549,7 @@ namespace SpartaDungeon
             while (true)
             {
                 Console.Clear();
-                Console.WriteLine(msg);
+                Console.WriteLine($"휴식하기\n500 G 를 내면 체력을 회복할 수 있습니다. (보유 골드 : {Character.instance.status.gold} G)");
 
                 PrintAction();
                 index = Input();
@@ -574,9 +574,12 @@ namespace SpartaDungeon
                 gold -= 500;
                 Character.instance.status.hp = 100;
                 Console.WriteLine("휴식을 완료했습니다.");
+
             }
             else
                 Console.WriteLine("Gold 가 부족합니다.");
+
+            Thread.Sleep(1000);
         }
     }
 }

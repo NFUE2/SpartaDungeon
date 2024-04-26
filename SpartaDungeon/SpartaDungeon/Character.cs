@@ -14,7 +14,7 @@ namespace SpartaDungeon
         public float att;
     }
     [Serializable]
-    public class Character 
+    public class Character
     {
 
         public static Character instance = null;
@@ -49,7 +49,7 @@ namespace SpartaDungeon
             status.gold = 1500;
         }
 
-        public Character(Status status, Storage inventory, List<Item> equip)
+        public Character(ref Status status,ref Storage inventory, ref List<Item> equip)
         {
             if (instance == null) instance = this;
 
