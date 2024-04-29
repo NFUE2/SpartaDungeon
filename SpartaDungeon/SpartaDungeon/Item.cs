@@ -34,8 +34,10 @@ namespace SpartaDungeon
             {
                 Item item = items[i];
                 string msg = $"- {item.name} | {item.type.ToString()} +{item.stat} | {item.info}";
-                    
-                if ((layer >> 2 & 1) == 1 && Character.instance.IsEquip(item)) msg = msg.Insert(1, " [E]"); //캐릭터가 장착했는지
+
+                if ((layer >> 2 & 1) == 1 && Character.instance.IsEquip(item))
+                    msg = msg.Insert(1, " [E]"); //캐릭터가 장착했는지
+
                 if ((layer >> 3 & 1) == 1) msg = msg.Insert(1, $" {i + 1}"); //인덱스 번호가 필요한지
 
                 //상점에서의 호출

@@ -60,8 +60,15 @@ namespace SpartaDungeon
             Storage inventory = JsonConvert.DeserializeObject<Storage>
                (str);
 
+            for (int i = 0; i < equip.Count; i++)
+                for(int j = 0; i < inventory.items.Count; i++)
+                {
+                    equip[i] = inventory.items[j];
+                    break;
+                }
+
             Character c = new Character(ref status,ref inventory,ref equip);
-            Console.WriteLine(c.status.gold);
+
             return true;
         }
 

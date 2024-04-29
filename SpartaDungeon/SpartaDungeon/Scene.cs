@@ -147,12 +147,13 @@ namespace SpartaDungeon
             if(actionList != null)
                 for(int i = 0; i < actionList.Count; i++)
                     Console.WriteLine($"{i + 1}. { actionList[i]}");
-            Console.WriteLine("0. 나가기\n");
+            //Console.WriteLine("0. 나가기\n");
         }
 
         protected int Input()
         {
-            //if (escape) Console.WriteLine("0. 나가기\n");
+            //if (escape) 
+            Console.WriteLine("0. 나가기\n");
             Console.WriteLine("\n원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
